@@ -1,7 +1,7 @@
 {
   "name": "crypto-warning",
   "description": "A reminder for crypto downfall",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "build/CryptoWarning.js",
   "keywords": [
     "cryptocurrency",
