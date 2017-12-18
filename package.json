@@ -1,0 +1,53 @@
+{
+  "name": "crypto-warning",
+  "description": "A reminder for crypto downfall",
+  "version": "0.1.0",
+  "main": "build/Danger.js",
+  "keywords": [
+    "cryptocurrency",
+    "reminder",
+    "danger",
+    "crypto"
+  ],
+  "author": {
+    "name": "rjmasikome",
+    "email": "rjmasikome@gmail.com"
+  },
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/rjmasikome/crypto-warning/issues"
+  },
+  "homepage": "https://github.com/rjmasikome/crypto-warning#readme",
+  "directories": {
+    "test": "test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjmasikome/crypto-warning.git"
+  },
+  "scripts": {
+    "start": "ts-node example/",
+    "build": "npm run compile",
+    "clean": "rm -rf build",
+    "precompile": "npm run clean",
+    "compile": "tsc --pretty",
+    "lint": "tslint lib/ test/",
+    "lint:fix": "tslint --fix lib/ test/",
+    "test": "mocha --exit --require ts-node/register 'test/**/*.ts'",
+    "dev": "nodemon index.ts"
+  },
+  "dependencies": {
+    "@types/node": "^8.5.1",
+    "debug": "^3.1.0",
+    "ms": "^2.1.1",
+    "request": "^2.83.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.13.1",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.13.3",
+    "ts-node": "^4.0.2",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.2"
+  }
+}
