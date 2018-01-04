@@ -1,7 +1,7 @@
 {
   "name": "crypto-observe",
   "description": "A reminder for crypto increase or decrease",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "build/Cryptoobserve.js",
   "keywords": [
     "cryptocurrency",
