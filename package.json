@@ -1,7 +1,7 @@
 {
   "name": "crypto-watch",
   "description": "A reminder for crypto increase or decrease",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "main": "build/CryptoWatch.js",
   "keywords": [
     "cryptocurrency",
