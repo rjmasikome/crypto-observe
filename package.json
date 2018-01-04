@@ -1,8 +1,8 @@
 {
-  "name": "crypto-warning",
-  "description": "A reminder for crypto downfall",
+  "name": "crypto-watch",
+  "description": "A reminder for crypto increase or decrease",
   "version": "0.1.1",
-  "main": "build/CryptoWarning.js",
+  "main": "build/CryptoWatch.js",
   "keywords": [
     "cryptocurrency",
     "reminder",
@@ -15,15 +15,15 @@
   },
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/rjmasikome/crypto-warning/issues"
+    "url": "https://github.com/rjmasikome/crypto-watch/issues"
   },
-  "homepage": "https://github.com/rjmasikome/crypto-warning#readme",
+  "homepage": "https://github.com/rjmasikome/crypto-watch#readme",
   "directories": {
     "test": "test/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rjmasikome/crypto-warning.git"
+    "url": "git+https://github.com/rjmasikome/crypto-watch.git"
   },
   "scripts": {
     "start": "ts-node example/",

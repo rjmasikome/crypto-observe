@@ -1,28 +1,37 @@
 "use strict";
 
-import { CryptoWarning } from "../lib/CryptoWarning";
+import { CryptoWatch } from "../lib/CryptoWatch";
 
 const config = {
-  currencies: ["bitcoin", "cardano"],
+  currencies: ["bitcoin", "litecoin", "tron"],
   frequency: "10s",
-  threshold: {
+  decrease: {
     type: "daily",
     percentage: 5,
     rest: "25s"
+  },
+  increase: {
+    type: "daily",
+    percentage: 5,
+    rest: "5m"
   }
 };
 
-const warning = new CryptoWarning(config);
+const watch = new CryptoWatch(config);
 
-warning.on("data", data => {
-  console.log("data", data.length);
+watch.on("data", data => {
+  console.log("data length:", data.length);
 });
 
-warning.on("danger", res => {
+watch.on("decrease", res => {
   console.log("Danger...", res);
 });
 
-warning.on("error", err => {
+watch.on("increase", res => {
+  console.log("Increasing...", res);
+});
+
+watch.on("error", err => {
   console.log(err);
   process.exit();
 });

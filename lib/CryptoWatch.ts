@@ -6,7 +6,7 @@ import * as ms from "ms";
 import * as EventEmitter from "events";
 import * as fs from "fs";
 
-const debug: Debug = Debug("crypto-warning:class");
+const debug: Debug = Debug("crypto-watch:class");
 const UTF8: string = "utf8";
 const SUCCESS_CODE: number = 200;
 const THRESHOLD_TYPE = ["hourly", "hour", "daily", "day", "weekly", "week"];
@@ -19,7 +19,7 @@ const FREQUENCY_MAP = {
   weekly: "percent_change_7d"
 };
 
-class DangerEmitter extends EventEmitter {}
+class WatchEmitter extends EventEmitter {}
 
 interface Threshold {
   type: string;
@@ -29,43 +29,57 @@ interface Threshold {
 
 interface Config {
   currencies: string[];
-  lastScrapes?: any;
+  last?: any;
   frequency: string;
-  threshold: Threshold;
+  decrease: Threshold;
+  increase: Threshold;
 }
 
-export class CryptoWarning {
+export class CryptoWatch {
 
   private config: Config;
-  private ee: DangerEmitter;
-  private options: any;
+  private ee: WatchEmitter;
+  private options: request.Options;
 
   constructor(config) {
     this.config = config;
-    this.ee = new DangerEmitter();
+    this.config.last = {};
+    this.ee = new WatchEmitter();
 
     if (!this.config.currencies) {
       throw new Error("Please provide currencies array in config");
     }
 
-    if (!this.config.threshold) {
+    if (!this.config.decrease || !this.config.increase) {
       throw new Error("Please provide threshold config. Hint: check README");
     }
 
-    if (THRESHOLD_TYPE.indexOf(this.config.threshold.type) === -1) {
-      throw new Error(`Please provide threshold type as the following ${THRESHOLD_TYPE}`);
+    if (THRESHOLD_TYPE.indexOf(this.config.decrease.type) === -1) {
+      throw new Error(`Please provide decrease type as the following ${THRESHOLD_TYPE}`);
     }
 
-    if (this.config.threshold.percentage < 1 || this.config.threshold.percentage > 100) {
-      throw new Error(`Please provide threshold percentage between 1-100`);
+    if (THRESHOLD_TYPE.indexOf(this.config.increase.type) === -1) {
+      throw new Error(`Please provide increase type as the following ${THRESHOLD_TYPE}`);
+    }
+
+    if (this.config.decrease.percentage < 1 || this.config.decrease.percentage > 100) {
+      throw new Error(`Please provide decrease percentage between 1-100`);
+    }
+
+    if (this.config.increase.percentage < 1 || this.config.increase.percentage > 100) {
+      throw new Error(`Please provide increase percentage between 1-100`);
     }
 
     if (!this.config.frequency || !ms(this.config.frequency)) {
       debug("Frequency is not defined correctly, it will only scrape one time");
     }
 
-    if (this.config.threshold.rest && !ms(this.config.threshold.rest)) {
-      throw new Error("Please provide correct rest duration. E.g: '15m', '3h', '1d'");
+    if (this.config.decrease.rest && !ms(this.config.decrease.rest)) {
+      throw new Error("Please provide correct decrease rest duration. E.g: '15m', '3h', '1d'");
+    }
+
+    if (this.config.increase.rest && !ms(this.config.increase.rest)) {
+      throw new Error("Please provide correct increase rest duration. E.g: '15m', '3h', '1d'");
     }
 
     this.options = {
@@ -142,20 +156,38 @@ export class CryptoWarning {
     Promise.all(this.__promisify())
       .then((results: any) => {
 
-        const freq = FREQUENCY_MAP[this.config.threshold.type];
+        const decFreq = FREQUENCY_MAP[this.config.decrease.type];
+        const incFreq = FREQUENCY_MAP[this.config.increase.type];
 
-        if (!freq) {
+        if (!decFreq || !incFreq) {
           this.ee.emit("error", new Error("Frequency is not valid"));
         }
 
         results.forEach((res: any) => {
-          if (res[freq] < -(this.config.threshold.percentage)) {
-            const diff: number = this.config.lastScrapes ? (new Date()).getTime() - this.config.lastScrapes[res.id] || 0 : 0;
-            if (diff === 0 || diff > ms(this.config.threshold.rest)) {
-              this.config.lastScrapes = this.config.lastScrapes || {};
-              this.config.lastScrapes[res.id] = (new Date()).getTime();
-              this.ee.emit("danger", res);
+
+          if (res[decFreq] <= -(this.config.decrease.percentage)) {
+
+            const diff: number = this.config.last.decrease ?
+              (new Date()).getTime() - this.config.last.decrease[res.id] || 0 : 0;
+
+            if (diff === 0 || diff > ms(this.config.decrease.rest)) {
+              this.config.last.decrease = this.config.last.decrease || {};
+              this.config.last.decrease[res.id] = (new Date()).getTime();
+              this.ee.emit("decrease", res);
             }
+          }
+
+          if (res[incFreq] >= this.config.increase.percentage) {
+
+            const diff: number = this.config.last.increase ?
+              (new Date()).getTime() - this.config.last.increase[res.id] || 0 : 0;
+
+            if (diff === 0 || diff > ms(this.config.increase.rest)) {
+              this.config.last.increase = this.config.last.increase || {};
+              this.config.last.increase[res.id] = (new Date()).getTime();
+              this.ee.emit("increase", res);
+            }
+
           }
         });
 
