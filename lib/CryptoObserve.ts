@@ -6,7 +6,7 @@ import * as ms from "ms";
 import * as EventEmitter from "events";
 import * as fs from "fs";
 
-const debug: Debug = Debug("crypto-watch:class");
+const debug: Debug = Debug("crypto-observe:class");
 const UTF8: string = "utf8";
 const SUCCESS_CODE: number = 200;
 const THRESHOLD_TYPE = ["hourly", "hour", "daily", "day", "weekly", "week"];

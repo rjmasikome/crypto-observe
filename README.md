@@ -1,4 +1,4 @@
-# crypto-watch
+# crypto-observe
 Service to get the growth or the decline of cryptocurrencies
 
 ### Requirement
@@ -6,7 +6,7 @@ Service to get the growth or the decline of cryptocurrencies
 2. Some crypto currencies in mind
 
 ### How to use
-1. `npm install crypto-warning`
+1. `npm install crypto-observe`
 2. For example:
 
 ```js
