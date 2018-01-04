@@ -1,6 +1,6 @@
 "use strict";
 
-import { CryptoWatch } from "../lib/CryptoWatch";
+import { CryptoObserve } from "../lib/CryptoObserve";
 
 const config = {
   currencies: ["bitcoin", "litecoin", "tron"],
@@ -17,7 +17,7 @@ const config = {
   }
 };
 
-const watch = new CryptoWatch(config);
+const watch = new CryptoObserve(config);
 
 watch.on("data", data => {
   console.log("data length:", data.length);

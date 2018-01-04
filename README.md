@@ -10,7 +10,7 @@ Service to get the growth or the decline of cryptocurrencies
 2. For example:
 
 ```js
-const { CryptoWatch } = require("crypto-watch");
+const { CryptoObserve } = require("crypto-observe");
 
 const config = {
   currencies: ["bitcoin", "ethereum","ripple"], // REQUIRED: The currencies to be scraped
@@ -27,7 +27,7 @@ const config = {
   }
 };
 
-const watch = new CryptoWatch(config);
+const watch = new CryptoObserve(config);
 
 watch.on("data", data => {
   console.log("data", data.length);

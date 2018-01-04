@@ -1,8 +1,8 @@
 {
-  "name": "crypto-watch",
+  "name": "crypto-observe",
   "description": "A reminder for crypto increase or decrease",
   "version": "1.0.0",
-  "main": "build/CryptoWatch.js",
+  "main": "build/Cryptoobserve.js",
   "keywords": [
     "cryptocurrency",
     "reminder",
@@ -15,15 +15,15 @@
   },
   "contributors": [],
   "bugs": {
-    "url": "https://github.com/rjmasikome/crypto-watch/issues"
+    "url": "https://github.com/rjmasikome/crypto-observe/issues"
   },
-  "homepage": "https://github.com/rjmasikome/crypto-watch#readme",
+  "homepage": "https://github.com/rjmasikome/crypto-observe#readme",
   "directories": {
     "test": "test/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rjmasikome/crypto-watch.git"
+    "url": "git+https://github.com/rjmasikome/crypto-observe.git"
   },
   "scripts": {
     "start": "ts-node example/",

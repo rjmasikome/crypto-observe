@@ -35,7 +35,7 @@ interface Config {
   increase: Threshold;
 }
 
-export class CryptoWatch {
+export class CryptoObserve {
 
   private config: Config;
   private ee: WatchEmitter;
