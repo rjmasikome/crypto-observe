@@ -9,6 +9,7 @@ import * as fs from "fs";
 const debug: Debug = Debug("crypto-observe:class");
 const UTF8: string = "utf8";
 const SUCCESS_CODE: number = 200;
+const NOT_FOUND_CODE: number = 404;
 const THRESHOLD_TYPE = ["hourly", "hour", "daily", "day", "weekly", "week"];
 const FREQUENCY_MAP = {
   hourly: "percent_change_1h",
@@ -113,7 +114,7 @@ export class CryptoObserve {
 
         debug("request done");
 
-        if (response.statusCode !== SUCCESS_CODE){
+        if (response.statusCode !== SUCCESS_CODE && response.statusCode !== NOT_FOUND_CODE){
           return reject(new Error(body));
         }
 
@@ -163,7 +164,9 @@ export class CryptoObserve {
           this.ee.emit("error", new Error("Frequency is not valid"));
         }
 
-        results.forEach((res: any) => {
+        results
+        .filter((res: any) => !!res)
+        .forEach((res: any) => {
 
           if (res[decFreq] <= -(this.config.decrease.percentage)) {
 
